@@ -2,7 +2,8 @@
 import os
 
 import pymongo
-from dotenv import dotenv_values
+from dotenv import dotenv_values, load_dotenv
+load_dotenv()
 
 # create a data access object
 from src.util.validators import getValidator
@@ -40,12 +41,11 @@ class DAO:
         self.collection = database[collection_name]
 
     def create(self, data: dict):
-        """Creates a new document in the collection associated to this data access object. 
-        The creation of a new document must comply to the corresponding validator, which defines the data structure of the collection. 
-        In particular, the validator has to make sure that: 
-        (1) the data for the new object contains all required properties, 
-        (2) every property complies to the bson data type constraint (see https://www.mongodb.com/docs/manual/reference/bson-types/, 
-        though we currently only consider Strings and Booleans), 
+        """Creates a new document in the collection associated to this data access object.
+        The creation of a new document must comply to the corresponding validator, which defines the data structure of the collection.
+        In particular, the validator has to make sure that: (1) the data for the new object contains all required properties,
+        (2) every property complies to the bson data type constraint (see https://www.mongodb.com/docs/manual/reference/bson-types/,
+        though we currently only consider Strings and Booleans),
         (3) and the values of a property flagged with 'uniqueItems' are unique among all documents of the collection.
 
         parameters:
