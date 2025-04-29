@@ -7,7 +7,7 @@ from pymongo.errors import WriteError
 def mocked_dao():
     dao = DAO("todo")
     yield dao
-    dao.collection.delete_one({"description": "test"})
+    dao.drop()
 
 def test_create_valid(mocked_dao):
     data = {
