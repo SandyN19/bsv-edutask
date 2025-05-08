@@ -1,0 +1,17 @@
+{
+    "$jsonSchema": {
+        "bsonType": "object",
+        "required": ["firstName"],
+        "properties": {
+            "firstName": {
+                "bsonType": "string",
+                "description": "First name of the person"
+            },
+            "lastName": {
+                "bsonType": "string",
+                "description": "Last name of the person",
+                "uniqueItems": true
+            }
+        }
+    }
+}

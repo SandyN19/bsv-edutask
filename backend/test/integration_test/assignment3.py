@@ -5,24 +5,24 @@ from pymongo.errors import WriteError
 
 @pytest.fixture
 def mocked_dao():
-    dao = DAO("todo")
+    dao = DAO("integration")
     yield dao
     dao.drop()
 
 def test_create_valid(mocked_dao):
     data = {
-        "description": "test",
-        "done": False,
+        "firstName": "Sandy",
+        "lastName": "Nguyen"
     }
     result = mocked_dao.create(data)
-    assert result["description"] == data["description"]
-    assert result["done"] == data["done"]
+    assert result["firstName"] == data["firstName"]
+    assert result["lastName"] == data["lastName"]
     assert "_id" in result
 
 def test_create_invalid(mocked_dao):
     data = {
-        "description": "test",
-        "done": "not_a_boolean",
+        "firstName": "Sandy",
+        "lastName": 21,
     }
 
     with pytest.raises(WriteError):
@@ -38,8 +38,8 @@ def test_create_empty(mocked_dao):
 
 def test_create_duplicate(mocked_dao):
     data = {
-        "description": "duplicate_test",
-        "done": False,
+        "firstName": "Sandy",
+        "lastName": "Nguyen"
     }
     mocked_dao.create(data)
 

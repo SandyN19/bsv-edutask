@@ -19,7 +19,7 @@ def test_get_user_by_email_single_user(setup_controller):
     assert result == mock_user
     mock_dao.find.assert_called_once_with({"email": "sandy@awesome.com"})
     
-def test_get_user_by_email_multiple_users(setup_controller, capfd):
+def test_get_user_by_email_returns_first_user(setup_controller):
     controller, mock_dao = setup_controller
     users = [
         {'email': 'linus@awesome.com', 'name': 'User1'},
@@ -27,9 +27,19 @@ def test_get_user_by_email_multiple_users(setup_controller, capfd):
     ]
     mock_dao.find.return_value = users
     result = controller.get_user_by_email("linus@awesome.com")
-    out, _ = capfd.readouterr()
-    
+
     assert result == users[0]
+
+def test_get_user_by_email_logs_warning_for_multiple_users(setup_controller, capfd):
+    controller, mock_dao = setup_controller
+    users = [
+        {'email': 'linus@awesome.com', 'name': 'User1'},
+        {'email': 'linus@awesome.com', 'name': 'User2'},
+    ]
+    mock_dao.find.return_value = users
+    controller.get_user_by_email("linus@awesome.com")
+    out, _ = capfd.readouterr()
+
     assert "Error: more than one user found with mail linus@awesome.com" in out
 
 def test_get_user_by_email_no_user(setup_controller):
