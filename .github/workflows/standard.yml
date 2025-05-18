@@ -1,4 +1,4 @@
-name: Labb 3 CI
+name: Labb 3 CI BOMBOCLAAT
 
 on:
   pull_request:
